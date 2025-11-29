@@ -1,0 +1,34 @@
+program Example;
+
+procedure TestProc;
+var
+  i: integer;
+  arr: array[1..10] of integer;
+begin
+  { This is a comment }
+  if (i > 0) then
+  begin
+    arr[i] := (i * 2) + (i mod 3);
+  end;
+
+  (* Pascal style comment *)
+  for i := 1 to 10 do
+  begin
+    if ((i mod 2) = 0) then
+    begin
+      WriteLn('Even: ', i);
+    end;
+  end;
+end;
+
+{ Unclosed comment example
+function TestFunc: integer;
+begin
+  result := (5 * (2 + 3));
+end;
+
+(* Another unclosed comment
+
+begin
+  TestProc;
+end.
