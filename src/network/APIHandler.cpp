@@ -5,7 +5,7 @@
 APIHandler::APIHandler() : errorHandler("api_errors.txt") {}
 
 APIHandler::~APIHandler() {
-    // Деструктор для очистки ресурсов если нужно
+
 }
 
 HttpResponse APIHandler::handleRequest(const HttpRequest& request) {

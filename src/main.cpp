@@ -18,12 +18,10 @@ void signalHandler(int signal) {
 int main() {
     std::cout << "=== Starting C++ Bracket Checker HTTP Server ===" << std::endl;
 
-    // Установка обработчиков сигналов
     std::signal(SIGINT, signalHandler);
     std::signal(SIGTERM, signalHandler);
 
     try {
-        // Используем обычный new вместо make_unique
         server = new HTTPServer(8080);
         server->start();
     } catch (const std::exception& e) {

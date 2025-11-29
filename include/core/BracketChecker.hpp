@@ -21,7 +21,6 @@ public:
     bool checkString(const std::string& code);
     void printResult() const;
 
-    // Делегируем методы обработки ошибок ErrorHandler
     bool hasErrors() const { return errorHandler.hasErrors(); }
     std::vector<ErrorInfo> getErrors() const { return errorHandler.getErrors(); }
 };

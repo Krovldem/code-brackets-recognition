@@ -19,7 +19,7 @@ class HTTPServer {
 private:
     int port;
     std::atomic<bool> running;
-    APIHandler* apiHandler;  // Обычный указатель вместо unique_ptr
+    APIHandler* apiHandler;
 
 #ifdef _WIN32
     SOCKET serverSocket;

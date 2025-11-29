@@ -113,7 +113,6 @@ bool BracketChecker::checkString(const std::string& code) {
     return !errorHandler.hasErrors();
 }
 
-// ГЛАВНОЕ - алгоритм без изменений
 void BracketChecker::processCharacter(char currentChar, int lineNumber, int position, const std::string& line) {
     if (currentChar == '(' || currentChar == '[' || currentChar == '{') {
         stack.push(currentChar, lineNumber, position);

@@ -33,14 +33,12 @@ std::string JSONSerializer::extractCodeFromRequest(const std::string& requestBod
 
     std::string code = requestBody.substr(codeStart, codeEnd - codeStart);
 
-    // Replace escaped characters
     size_t pos = 0;
     while ((pos = code.find("\\n", pos)) != std::string::npos) {
         code.replace(pos, 2, "\n");
         pos += 1;
     }
 
-    // Replace other escaped characters if needed
     pos = 0;
     while ((pos = code.find("\\t", pos)) != std::string::npos) {
         code.replace(pos, 2, "\t");
