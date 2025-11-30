@@ -1,43 +1,23 @@
-#include "../include/network/HTTPServer.hpp"
-#include <iostream>
-#include <cstdlib>
-#include <csignal>
-#include <memory>
-
-HTTPServer* server = nullptr;
-
-void signalHandler(int signal) {
-    std::cout << "\nReceived signal " << signal << ", shutting down..." << std::endl;
-    if (server) {
-        server->stop();
-        delete server;
-        server = nullptr;
-    }
-}
+#include "CodePairsCheck.h"
+#include "crow_all.h"
+#include "json.hpp"
 
 int main() {
-    std::cout << "=== Starting C++ Bracket Checker HTTP Server ===" << std::endl;
-
-    std::signal(SIGINT, signalHandler);
-    std::signal(SIGTERM, signalHandler);
-
-    try {
-        server = new HTTPServer(8080);
-        server->start();
-    } catch (const std::exception& e) {
-        std::cerr << "Server error: " << e.what() << std::endl;
-        if (server) {
-            delete server;
-            server = nullptr;
-        }
-        return 1;
-    }
-
-    if (server) {
-        delete server;
-        server = nullptr;
-    }
-
-    std::cout << "Server stopped gracefully." << std::endl;
-    return 0;
+    crow::SimpleApp app;
+    CROW_ROUTE(app, "/check").methods("POST"_method)
+            ([&](const crow::request &req) {
+                auto body = req.body;
+                if (body.empty()) {
+                    crow::json::wvalue res;
+                    res["error"] = "Empty request body";
+                    return crow::response(400, res);
+                }
+                auto errors = checkCode(body);
+                nlohmann::json resp = nlohmann::json::array();
+                for (const auto &err: errors) {
+                    resp.push_back({{"line", err.line},{"col", err.col},{"description", err.description}});
+                }
+                return crow::response(resp.dump());
+            });
+    app.port(18080).multithreaded().run();
 }
